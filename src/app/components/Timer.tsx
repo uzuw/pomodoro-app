@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Slider from "./Slider";
+import Quote from "./Quote";
 
 const CHECKPOINTS = [10, 25, 40, 60];
 
@@ -37,48 +38,41 @@ const Timer: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 text-center font-vt323">
+    <div className="max-w-md mx-auto p-6 text-center font-vt323 text-white">
+      <Quote/>
       <h1 className="text-6xl font-bold mb-8">{formatTime(secondsLeft)}</h1>
 
       {/* Hidden slider controlling the time */}
-      <Slider
+      {/* <Slider
         min={10}
         max={60}
         step={5}
         checkpoints={CHECKPOINTS}
         value={selectedMinutes}
         onChange={(val) => setSelectedMinutes(val)}
-      />
+      /> */}
 
       {/* Custom UI to show current selected time and controls */}
-      <div className="flex justify-center items-center gap-6 mb-6">
-        <button
-          onClick={() => setSelectedMinutes((prev) => Math.max(10, prev - 5))}
-          className="px-5 py-2 rounded bg-red-500 text-white text-xl font-bold hover:bg-red-600 transition"
-          aria-label="Decrease timer"
-          disabled={selectedMinutes === 10}
-        >
-          −
-        </button>
+<div className="flex gap-5">
 
-        <div className="text-2xl font-semibold select-none">{selectedMinutes} min</div>
-
-        <button
-          onClick={() => setSelectedMinutes((prev) => Math.min(60, prev + 5))}
-          className="px-5 py-2 rounded bg-green-500 text-white text-xl font-bold hover:bg-green-600 transition"
-          aria-label="Increase timer"
-          disabled={selectedMinutes === 60}
-        >
-          +
-        </button>
-      </div>
-
-      <button
+  <button
         onClick={() => setIsRunning(!isRunning)}
         className="w-full px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-lg"
       >
         {isRunning ? "Pause" : "Start"}
       </button>
+      <button
+        onClick={() => {
+          setIsRunning(false);
+          setSecondsLeft(selectedMinutes*60);
+
+        }}
+        className="w-full px-6 py-3 bg-red-600 text-white rounded hover:bg-red-700 transition text-lg"
+      >
+        Reset
+      </button>
+</div>
+      
     </div>
   );
 };
