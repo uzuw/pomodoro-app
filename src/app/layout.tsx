@@ -3,6 +3,15 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins, Montserrat, Space_Mono, VT323 } from "next/font/google";
 import Navbar from "./components/Navbar";
+
+import { Press_Start_2P } from "next/font/google";
+
+const pressStart2P = Press_Start_2P({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-minecraft",
+  display: "swap",
+});
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -40,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${montserrat.variable} ${spaceMono.variable} ${vt323.variable} antialiased`}
+        className={`${poppins.variable} ${montserrat.variable} ${spaceMono.variable} ${vt323.variable} antialiased ${pressStart2P.variable} font-minecraft`}
       >
         <Navbar />
         {children}

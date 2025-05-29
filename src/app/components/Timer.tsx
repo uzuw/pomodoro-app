@@ -10,6 +10,7 @@ const Timer: React.FC = () => {
   const [selectedMinutes, setSelectedMinutes] = useState(25);
   const [secondsLeft, setSecondsLeft] = useState(selectedMinutes * 60);
   const [isRunning, setIsRunning] = useState(false);
+  const [showQuote, setShowQuote] = useState(true);
 
   useEffect(() => {
     setSecondsLeft(selectedMinutes * 60);
@@ -38,41 +39,47 @@ const Timer: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 text-center font-vt323 text-white">
-      <Quote/>
+    <div className="max-w-md mx-auto p-6 text-center font-minecraft text-white relative">
+
+      {/* Toggle switch in top-left with animation */}
+      <div className="fixed bottom-4 right-4 flex items-center gap-3">
+        <span className="text-sm">Quotes</span>
+        <button
+          onClick={() => setShowQuote(!showQuote)}
+          className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
+            showQuote ? "bg-green-500" : "bg-gray-600"
+          }`}
+        >
+          <div
+            className={`w-4 h-4 bg-white rounded-full shadow-md transform duration-300 ${
+              showQuote ? "translate-x-6" : "translate-x-0"
+            }`}
+          />
+        </button>
+      </div>
+
+      {showQuote && <Quote />}
+
       <h1 className="text-6xl font-bold mb-8">{formatTime(secondsLeft)}</h1>
 
-      {/* Hidden slider controlling the time */}
-      {/* <Slider
-        min={10}
-        max={60}
-        step={5}
-        checkpoints={CHECKPOINTS}
-        value={selectedMinutes}
-        onChange={(val) => setSelectedMinutes(val)}
-      /> */}
+      <div className="flex gap-5">
+        <button
+          onClick={() => setIsRunning(!isRunning)}
+          className="w-full px-6 py-3 bg-[url('/images/btn.png')] bg-cover bg-center text-white rounded hover:opacity-90 transition text-lg shadow-inner shadow-gray-600"
+        >
+          {isRunning ? "Pause" : "Start"}
+        </button>
 
-      {/* Custom UI to show current selected time and controls */}
-<div className="flex gap-5">
-
-  <button
-        onClick={() => setIsRunning(!isRunning)}
-        className="w-full px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-lg"
-      >
-        {isRunning ? "Pause" : "Start"}
-      </button>
-      <button
-        onClick={() => {
-          setIsRunning(false);
-          setSecondsLeft(selectedMinutes*60);
-
-        }}
-        className="w-full px-6 py-3 bg-red-600 text-white rounded hover:bg-red-700 transition text-lg"
-      >
-        Reset
-      </button>
-</div>
-      
+        <button
+          onClick={() => {
+            setIsRunning(false);
+            setSecondsLeft(selectedMinutes * 60);
+          }}
+          className="w-full px-6 py-3 bg-[url('/images/btn.png')] bg-cover bg-center text-white rounded hover:opacity-90 transition text-lg shadow-inner shadow-gray-600"
+        >
+          Reset
+        </button>
+      </div>
     </div>
   );
 };

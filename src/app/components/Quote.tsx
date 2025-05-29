@@ -31,7 +31,7 @@ const Quote = () => {
       {quote ? (
         <>
           <p className="text-lg italic">"{quote.description}"</p>
-          <p className="text-sm mt-2">— {quote.name}</p>
+          <p className="text-sm mt-2 font-minecraft">— {quote.name}</p>
         </>
       ) : (
         <p>Loading quote...</p>
