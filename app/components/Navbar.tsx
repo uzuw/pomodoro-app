@@ -2,21 +2,16 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import {
-  HomeIcon,
-  ShoppingCartIcon,
-  ClockIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-} from "@heroicons/react/24/outline";
 
+// Define icon paths
 const navItems = [
-  { href: "/", label: "Home", Icon: HomeIcon },
-  { href: "/shop", label: "Shop", Icon: ShoppingCartIcon },
-  { href: "/timer", label: "Timer", Icon: ClockIcon },
-  { href: "/profile", label: "Profile", Icon: UserCircleIcon },
-  { href: "/settings", label: "Settings", Icon: Cog6ToothIcon },
+  { href: "/", label: "Home", icon: "/navbar/home.png" },
+  { href: "/shop", label: "Shop", icon: "/navbar/shop.png" },
+  { href: "/timer", label: "Timer", icon: "/navbar/clock.png" },
+  { href: "/profile", label: "Profile", icon: "/navbar/profile.png" },
+  { href: "/settings", label: "Settings", icon: "/navbar/settings.png" },
 ];
 
 const Navbar: React.FC = () => {
@@ -24,7 +19,9 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="fixed top-4 right-4 z-50 flex flex-col items-center space-y-6 px-4 py-4 rounded-2xl shadow-xl bg-black/20 backdrop-blur-md border border-white/10">
-      {navItems.map(({ href, label, Icon }) => {
+      
+
+      {navItems.map(({ href, label, icon }) => {
         const isActive = pathname === href;
 
         return (
@@ -36,13 +33,17 @@ const Navbar: React.FC = () => {
             <div
               className={`p-2 rounded-xl transition-all duration-300 ${
                 isActive
-                  ? "bg-blue-500 shadow-md"
+                  ? "bg-white/10 shadow-md"
                   : "hover:bg-white/20 hover:shadow-md"
               }`}
             >
-              <Icon
-                className={`h-6 w-6 transition-colors duration-300 ${
-                  isActive ? "text-white" : "text-white group-hover:text-blue-400"
+              <Image
+                src={icon}
+                alt={label}
+                width={30}
+                height={30}
+                className={`transition duration-300 ${
+                  isActive ? "invert" : "group-hover:scale-120"
                 }`}
               />
             </div>
