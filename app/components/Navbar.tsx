@@ -9,7 +9,6 @@ import { usePathname } from "next/navigation";
 const navItems = [
   { href: "/", label: "Home", icon: "/navbar/home.png" },
   { href: "/shop", label: "Shop", icon: "/navbar/shop.png" },
-  { href: "/timer", label: "Timer", icon: "/navbar/clock.png" },
   { href: "/profile", label: "Profile", icon: "/navbar/profile.png" },
   { href: "/settings", label: "Settings", icon: "/navbar/settings.png" },
 ];
@@ -42,8 +41,8 @@ const Navbar: React.FC = () => {
                 alt={label}
                 width={30}
                 height={30}
-                className={`transition duration-300 ${
-                  isActive ? "invert" : "group-hover:scale-120"
+                className={`transition duration-200 ${
+                  isActive ? "scale-130" : "group-hover:scale-130"
                 }`}
               />
             </div>

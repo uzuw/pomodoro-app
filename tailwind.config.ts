@@ -13,7 +13,7 @@ const config: Config = {
         montserrat: ['var(--font-montserrat)', 'sans-serif'],
         spaceMono: ['var(--font-space-mono)', 'monospace'],
         vt323: ['var(--font-vt323)', 'monospace'],
-        minecraft: "var(--font-minecraft)"
+        minecraft: ['"Minecraft"', 'sans-serif'],
       },
     },
   },

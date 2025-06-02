@@ -40,8 +40,40 @@ const Timer: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 text-center font-minecraft text-white relative">
+      {/* Timer */}
+      <h1 className="text-6xl font-bold mb-8">{formatTime(secondsLeft)}</h1>
 
-      {/* Toggle switch in top-left with animation */}
+      {/* Slider with proper props */}
+      <Slider
+        min={5}
+        max={60}
+        step={5}
+        checkpoints={CHECKPOINTS}
+        value={selectedMinutes}
+        onChange={(val) => setSelectedMinutes(val)}
+      />
+
+      {/* Control Buttons */}
+      <div className="flex gap-5 mt-6">
+        <button
+          onClick={() => setIsRunning(!isRunning)}
+          className="w-full px-6 py-3 rounded hover:opacity-90 hover:scale-105 transition text-lg shadow-inner bg-[#ffd17d] text-amber-950 font-extrabold"
+        >
+          {isRunning ? "Pause" : "Start"}
+        </button>
+
+        <button
+          onClick={() => {
+            setIsRunning(false);
+            setSecondsLeft(selectedMinutes * 60);
+          }}
+          className="w-full px-6 py-3 rounded hover:opacity-90 hover:scale-105 transition text-lg shadow-inner bg-amber-950 text-[#ffd17d] font-extrabold"
+        >
+          Reset
+        </button>
+      </div>
+
+      {/* Quote toggle switch */}
       <div className="fixed bottom-4 right-4 flex items-center gap-3">
         <span className="text-sm">Quotes</span>
         <button
@@ -59,27 +91,6 @@ const Timer: React.FC = () => {
       </div>
 
       {showQuote && <Quote />}
-
-      <h1 className="text-6xl font-bold mb-8">{formatTime(secondsLeft)}</h1>
-
-      <div className="flex gap-5">
-        <button
-          onClick={() => setIsRunning(!isRunning)}
-          className="w-full px-6 py-3 bg-[url('/images/btn.png')] bg-cover bg-center text-white rounded hover:opacity-90 transition text-lg shadow-inner shadow-gray-600"
-        >
-          {isRunning ? "Pause" : "Start"}
-        </button>
-
-        <button
-          onClick={() => {
-            setIsRunning(false);
-            setSecondsLeft(selectedMinutes * 60);
-          }}
-          className="w-full px-6 py-3 bg-[url('/images/btn.png')] bg-cover bg-center text-white rounded hover:opacity-90 transition text-lg shadow-inner shadow-gray-600"
-        >
-          Reset
-        </button>
-      </div>
     </div>
   );
 };

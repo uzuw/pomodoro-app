@@ -52,15 +52,54 @@ const Slider: React.FC<SliderProps> = ({
 
   return (
     <MuiSlider
-      value={value}
-      min={min}
-      max={max}
-      step={step}
-      marks={marks}
-      onChange={handleChange}
-      aria-label="Timer length slider"
-      valueLabelDisplay="auto"
-    />
+  value={value}
+  min={min}
+  max={max}
+  step={step}
+  marks={marks}
+  onChange={handleChange}
+  aria-label="Timer length slider"
+  valueLabelDisplay="auto"
+  sx={{
+    color: "#ffd17d",
+    height: 8,
+
+    "& .MuiSlider-thumb": {
+      height: 20,
+      width: 20,
+      backgroundImage: `url('/navbar/sliderpaw.png')`, // Path to your image
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      border: "2px solid white",
+      "&:hover": {
+        boxShadow: "0 0 0 8px rgba(255, 209, 125, 0.16)",
+      },
+    },
+
+    "& .MuiSlider-track": {
+      border: "none",
+      backgroundColor: "#ffd17d",
+    },
+
+    "& .MuiSlider-rail": {
+      backgroundColor: "#ffffff33",
+    },
+
+    "& .MuiSlider-mark": {
+      backgroundColor: "#ffffff80",
+      height: 6,
+      width: 2,
+      marginTop: -2,
+    },
+
+    "& .MuiSlider-markLabel": {
+      color: "#ffffffaa",
+      fontSize: "0.75rem",
+    },
+  }}
+/>
+
   );
 };
 

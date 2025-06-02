@@ -27,7 +27,7 @@ const Quote = () => {
   }, []);
 
   return (
-    <div className="text-white text-center p-4 fixed top-20 left-1/2 -translate-x-1/2">
+    <div className="text-white text-center p-4 fixed top-20 left-1/2 -translate-x-1/2 font-minecraft">
       {quote ? (
         <>
           <p className="text-lg italic">"{quote.description}"</p>
