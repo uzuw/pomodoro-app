@@ -88,7 +88,7 @@ const Slider: React.FC<SliderProps> = ({
 
     "& .MuiSlider-mark": {
       backgroundColor: "#ffffff80",
-      height: 6,
+      height: 2,
       width: 2,
       marginTop: -2,
     },
@@ -96,6 +96,7 @@ const Slider: React.FC<SliderProps> = ({
     "& .MuiSlider-markLabel": {
       color: "#ffffffaa",
       fontSize: "0.75rem",
+      fontFamily:"monospace"
     },
   }}
 />

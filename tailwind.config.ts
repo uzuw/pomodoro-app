@@ -15,6 +15,11 @@ const config: Config = {
         vt323: ['var(--font-vt323)', 'monospace'],
         minecraft: ['"Minecraft"', 'sans-serif'],
       },
+      colors: {
+    lavender: "#e9d5ff",
+    softPurple: "#c084fc",
+    caféBrown: "#5e2a84",
+  },
     },
   },
   plugins: [],
