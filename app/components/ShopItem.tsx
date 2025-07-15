@@ -87,7 +87,7 @@ const ShopItems = () => {
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
 
   return (
-    <div className="px-6 py-10 bg-[#fbedcf] min-h-screen">
+    <div className="px-40 py-10 bg-[#f8e7c3] min-h-screen">
       <h1 className="text-4xl font-bold text-center mb-8 text-[#a0522d]">🧁 Boutique Items</h1>
 
       {/* Controls */}
@@ -98,8 +98,8 @@ const ShopItems = () => {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat as ShopCategory | "all")}
-              className={`px-4 py-2 rounded-full border ${
-                selectedCategory === cat ? "bg-pink-300 text-white" : "bg-white"
+              className={`px-4 py-2 rounded-full hover:scale-105 ${
+                selectedCategory === cat ? "bg-pink-300 text-white" : "bg-white text-gray-700"
               }`}
             >
               {cat === "all" ? "All" : cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -109,24 +109,24 @@ const ShopItems = () => {
 
         {/* Sort Dropdown */}
         <select
-          className="px-3 py-2 border rounded"
+          className="px-5 py-2 text-gray-500 border rounded-3xl"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as any)}
         >
           <option value="name">Sort by Name (A-Z)</option>
-          <option value="priceAsc">Sort by Price (Low to High)</option>
-          <option value="priceDesc">Sort by Price (High to Low)</option>
+          <option value="priceAsc">Sort by Price low</option>
+          <option value="priceDesc">Sort by Price high</option>
         </select>
       </div>
 
       {/* Search Input */}
-      <div className="mb-8 text-center">
+      <div className="mb-8">
         <input
           type="text"
           placeholder="Search items..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-4 py-2 w-full max-w-md rounded border border-gray-300"
+          className="px-4 py-2 w-full max-w-md rounded-3xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-700"
         />
       </div>
 
