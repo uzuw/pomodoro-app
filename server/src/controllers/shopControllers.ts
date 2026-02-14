@@ -1,9 +1,8 @@
-// controllers/shopController.ts
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import ShopItem from "../models/ShopItem";
 
 // Get all items
-export const getAllItems = async (_req: Request, res: Response) => {
+export const getAllItems: RequestHandler = async (_req, res) => {
   try {
     const items = await ShopItem.find();
     res.json(items);
@@ -13,10 +12,15 @@ export const getAllItems = async (_req: Request, res: Response) => {
 };
 
 // Get single item by ID
-export const getItemById = async (req: Request, res: Response) => {
+export const getItemById: RequestHandler = async (req, res) => {
   try {
     const item = await ShopItem.findById(req.params.id);
-    if (!item) return res.status(404).json({ error: "Item not found." });
+
+    if (!item) {
+      res.status(404).json({ error: "Item not found." });
+      return;
+    }
+
     res.json(item);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch item." });
@@ -24,7 +28,7 @@ export const getItemById = async (req: Request, res: Response) => {
 };
 
 // Create item
-export const createItem = async (req: Request, res: Response) => {
+export const createItem: RequestHandler = async (req, res) => {
   try {
     const newItem = await ShopItem.create(req.body);
     res.status(201).json(newItem);
@@ -34,12 +38,19 @@ export const createItem = async (req: Request, res: Response) => {
 };
 
 // Update item
-export const updateItem = async (req: Request, res: Response) => {
+export const updateItem: RequestHandler = async (req, res) => {
   try {
-    const updated = await ShopItem.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!updated) return res.status(404).json({ error: "Item not found." });
+    const updated = await ShopItem.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    if (!updated) {
+      res.status(404).json({ error: "Item not found." });
+      return;
+    }
+
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: "Failed to update item." });
@@ -47,10 +58,15 @@ export const updateItem = async (req: Request, res: Response) => {
 };
 
 // Delete item
-export const deleteItem = async (req: Request, res: Response) => {
+export const deleteItem: RequestHandler = async (req, res) => {
   try {
     const deleted = await ShopItem.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ error: "Item not found." });
+
+    if (!deleted) {
+      res.status(404).json({ error: "Item not found." });
+      return;
+    }
+
     res.json({ message: "Item deleted." });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete item." });
