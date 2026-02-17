@@ -16,4 +16,13 @@ router.post("/", createItem);
 router.put("/:id", updateItem);
 router.delete("/:id", deleteItem);
 
+
+
+import { buyItem } from "../controllers/shopControllers";
+import { protect } from "../middleware/auth";
+
+router.post("/buy", protect, buyItem);
+
 export default router;
+
+

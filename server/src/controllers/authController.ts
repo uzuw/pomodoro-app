@@ -66,6 +66,6 @@ export const loginUser: RequestHandler = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Login failed" });
+    res.status(500).json({ message: "Login failed",error:error });
   }
 };

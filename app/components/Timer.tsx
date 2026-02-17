@@ -89,6 +89,7 @@ const Timer: React.FC = () => {
           />
         </button>
       </div>
+      
 
       {showQuote && <Quote />}
     </div>

@@ -87,7 +87,7 @@ const ShopItems = () => {
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
 
   return (
-    <div className="px-40 py-10 bg-[#f8e7c3] min-h-screen">
+    <div className="px-40 py-10 bg-white min-h-screen">
       <h1 className="text-4xl font-bold text-center mb-8 text-[#a0522d]">🧁 Boutique Items</h1>
 
       {/* Controls */}
@@ -131,7 +131,7 @@ const ShopItems = () => {
       </div>
 
       {/* Items Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
         {paginatedItems.length === 0 ? (
           <p className="col-span-full text-center text-gray-500">No items found.</p>
         ) : (
