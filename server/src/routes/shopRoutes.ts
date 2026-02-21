@@ -18,6 +18,8 @@ router.delete("/:id", deleteItem);
 
 
 
+//buying the items from the shop (updating inventory)
+
 import { buyItem } from "../controllers/shopControllers";
 import { protect } from "../middleware/auth";
 
