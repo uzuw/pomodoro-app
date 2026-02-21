@@ -2,7 +2,10 @@ import { Request, Response, RequestHandler } from "express";
 import User from "../models/User";
 
 interface AuthRequest extends Request {
-  user?: { id: string };
+  user?: { 
+    id: string;
+    role: string; // or just string if more roles later
+  };
 }
 
 /* ===========================

@@ -5,7 +5,7 @@ import connectDB from "./config/db";
 import authRoutes from "./routes/auth";
 import shopRoutes from "./routes/shopRoutes"; 
 import userRoutes from "./routes/userRoutes"
-
+import adminRoutes from "./routes/adminRoutes"
 
 
 
@@ -32,7 +32,7 @@ connectDB();
 app.use("/api/user",userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/shop", shopRoutes); 
-
+app.use("/admin",adminRoutes)
 
 
 

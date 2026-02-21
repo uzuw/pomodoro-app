@@ -7,6 +7,7 @@ export interface IUser extends Document {
   password: string;
   coins: number;
   inventory: mongoose.Types.ObjectId[]; // references ShopItem
+  role:string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -16,6 +17,11 @@ const userSchema = new Schema<IUser>(
     password: { type: String, required: true },
     coins: { type: Number, default: 100 }, // or any starting amount
     inventory: [{ type: mongoose.Schema.Types.ObjectId, ref: "ShopItem" }],
+    role: {
+  type: String,
+  enum: ["user", "admin"],
+  default: "user",
+},
   },
   { timestamps: true }
 );

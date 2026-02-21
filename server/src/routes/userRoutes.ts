@@ -8,6 +8,6 @@ const router = express.Router();
 // GET logged-in user info
 router.get("/me", protect, getCurrentUser);
 router.get("/inventory",protect,getUserInventory);
-router.get("/rinventory",protect,removeInventoryItem);
+router.post("/rinventory",protect,removeInventoryItem);
 
 export default router;

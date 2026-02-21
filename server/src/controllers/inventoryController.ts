@@ -1,11 +1,15 @@
 import { Request, Response, RequestHandler } from "express";
 import User from "../models/User";
 import mongoose from "mongoose";
-
+import ShopItem from "../models/ShopItem";
 
 interface AuthRequest extends Request {
-  user?: { id: string };
+  user?: { 
+    id: string;
+    role: string; // or just string if more roles later
+  };
 }
+
 //get user inventory
 
 export const getUserInventory: RequestHandler = async (
@@ -41,53 +45,76 @@ export const getUserInventory: RequestHandler = async (
   }
 };
 
+
+
 export const removeInventoryItem: RequestHandler = async (
-  req:AuthRequest, res:Response
-)=>{
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    const { itemId } = req.body;
 
-try{
-  const userId=req.user?.id;
-  const {itemId}=req.body;
-
-  if (!userId) {
+    // 1️⃣ Auth check
+    if (!userId) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
 
-  if(!mongoose.isValidObjectId(itemId)){
-    res.status(400).json({
-      message:"Invalid item ID"
-    })
-  }
+    // 2️⃣ Validate itemId
+    if (!mongoose.Types.ObjectId.isValid(itemId)) {
+      res.status(400).json({ message: "Invalid item ID" });
+      return;
+    }
 
-  const updatedUser=await User.findByIdAndUpdate(userId,
-    {$pull:{inventory:itemId}},//removes item if id exists
-    {new:true}
-      ).populate("inventory");
+    // 3️⃣ Fetch item to know its price
+    const item = await ShopItem.findById(itemId);
+    if (!item) {
+      res.status(404).json({ message: "Item not found" });
+      return;
+    }
 
+    // 4️⃣ Calculate 50% refund
+    const refundAmount = Math.floor(item.money * 0.5);
 
-        if (!updatedUser) {
-        res.status(404).json({ message: "User not found" });
-        return;
-      }
+    // 5️⃣ Atomic update:
+    //    - Remove item ONLY if user owns it
+    //    - Add refund coins
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        _id: userId,
+        inventory: item._id, // ensures user owns item
+      },
+      {
+        $pull: { inventory: item._id },
+        $inc: { coins: refundAmount },
+      },
+      { new: true }
+    ).populate("inventory");
 
-      res.status(200).json({
-      message: "Item removed from inventory",
+    if (!updatedUser) {
+      res.status(400).json({
+        message: "Item not in inventory or user not found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Item removed successfully",
+      refunded: refundAmount,
       coins: updatedUser.coins,
       inventory: updatedUser.inventory,
     });
+
     return;
-
-}
-
-
-      
-catch(error){
-  console.error("Remove inventory error",error);
-  res.status(500).json({
-    message:"failed to remove item"
-  })
-}
+  } catch (error) {
+    console.error("Remove inventory error:", error);
+    res.status(500).json({
+      message: "Failed to remove item",
+    });
+    return;
+  }
+};
 
 
 
@@ -97,4 +124,3 @@ catch(error){
 
 
 
-} 

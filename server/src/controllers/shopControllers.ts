@@ -2,6 +2,7 @@ import { Request, Response, RequestHandler } from "express";
 import mongoose from "mongoose";
 import ShopItem from "../models/ShopItem";
 import User from "../models/User";
+import { deductCoins } from "../services/coinService";
 
 /* ===========================
    GET ALL ITEMS
@@ -127,8 +128,13 @@ export const deleteItem: RequestHandler = async (req, res) => {
 =========================== */
 
 interface AuthRequest extends Request {
-  user?: { id: string };
+  user?: { 
+    id: string;
+    role: string; // or just string if more roles later
+  };
 }
+
+
 
 export const buyItem: RequestHandler = async (
   req: AuthRequest,
@@ -139,43 +145,45 @@ export const buyItem: RequestHandler = async (
     const { itemId } = req.body;
 
     if (!userId) {
-       res.status(401).json({ message: "Unauthorized" });
-       return
+      res.status(401).json({ message: "Unauthorized" });
+      return;
     }
 
     if (!mongoose.Types.ObjectId.isValid(itemId)) {
-       res.status(400).json({ message: "Invalid item ID" });
-       return
+      res.status(400).json({ message: "Invalid item ID" });
+      return;
     }
 
-    // Verify item exists
-    const itemExists = await ShopItem.findById(itemId);
-    if (!itemExists) {
-       res.status(404).json({ message: "Item not found" });
-       return
+    // Fetch item
+    const item = await ShopItem.findById(itemId);
+    if (!item) {
+      res.status(404).json({ message: "Item not found" });
+      return;
     }
 
-    // Atomic update prevents duplicates automatically
-    const updatedUser = await User.findByIdAndUpdate(
+    // Deduct coins
+    const updatedUser = await deductCoins(userId, item.money, "BUY_ITEM");
+    if (!updatedUser) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    // Add item to inventory (duplicates automatically prevented)
+    await User.findByIdAndUpdate(
       userId,
-      { $addToSet: { inventory: itemId } }, // prevents duplicate entries
+      { $addToSet: { inventory: item._id } },
       { new: true }
     );
 
-    if (!updatedUser) {
-       res.status(404).json({ message: "User not found" });
-       return
-    }
-
-     res.status(200).json({
-      message: "Item added to inventory",
-      inventory: updatedUser.inventory,
+    res.status(200).json({
+      message: "Item purchased successfully",
+      coins: updatedUser.coins,
     });
-    return
-
+    return; // ✅ important: exit without returning the Response object
   } catch (error) {
     console.error("Buy Item Error:", error);
-     res.status(500).json({ message: "Purchase failed" });
-     return
+    res.status(500).json({ message: "Purchase failed" });
+    return;
   }
 };
+
