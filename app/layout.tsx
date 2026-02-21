@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Head from "next/head";
 import { Poppins, Montserrat, Space_Mono, VT323 } from "next/font/google";
 import Navbar from "./components/Navbar";
-
+import { AuthProvider } from "./context/AuthContext";
 import { Press_Start_2P } from "next/font/google";
 
 const pressStart2P = Press_Start_2P({
@@ -56,9 +56,12 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${montserrat.variable} ${spaceMono.variable} ${vt323.variable} antialiased ${pressStart2P.variable} font-minecraft`}
       >
-        <Navbar/>
         
-        {children}
+        <AuthProvider>
+          
+          <Navbar/>{children}
+          
+        </AuthProvider>
       </body>
     </html>
   );

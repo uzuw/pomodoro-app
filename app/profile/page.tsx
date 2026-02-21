@@ -1,28 +1,60 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+interface PurchasedItem {
+  _id: string;
+  title: string;
+  image: string;
+  category: string;
+}
 
-const mockUser = {
-  name: "Uzuw",
-  email: "uzuw@example.com",
-  profilePic: "/profile/uzuw.png", // replace with actual image
-  coins: 1200,
-  purchasedItems: [
-    {
-      title: "Wizard Costume",
-      image: "/shop/costumes/wizard.png",
-      category: "costumes",
-    },
-    {
-      title: "Sunset Background",
-      image: "/shop/backgrounds/sunset.png",
-      category: "backgrounds",
-    },
-  ],
-};
+interface UserData {
+  name: string;
+  email: string;
+  profilePic: string;
+  coins: number;
+  purchasedItems: PurchasedItem[];
+}
 
 const ProfilePage: React.FC = () => {
-  const user = mockUser; // Replace with real user state or fetch
+  const { token } = useAuth();
+  const [user, setUser] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!token) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.message || "Failed to fetch user");
+        }
+
+        const data = await res.json();
+        setUser(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [token]);
+
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
+  if (!user) return <p className="text-center mt-10">No user data</p>;
 
   return (
     <div className="min-h-screen bg-[#fbedcf] py-12 px-6 md:px-32 font-minecraft text-[#6b3e26]">
@@ -46,9 +78,9 @@ const ProfilePage: React.FC = () => {
           <>
             <h2 className="text-xl font-bold mt-10 mb-4">🎁 Purchased Items</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {user.purchasedItems.map((item, index) => (
+              {user.purchasedItems.map((item) => (
                 <div
-                  key={index}
+                  key={item._id}
                   className="bg-white p-3 rounded-xl shadow-md text-center"
                 >
                   <Image

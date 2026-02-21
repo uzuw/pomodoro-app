@@ -2,12 +2,18 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
+
 
 const LoginPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
   const router = useRouter();
+
+
+  const { setToken } = useAuth();
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,8 +37,7 @@ const LoginPage = () => {
       if (!res.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-
-      localStorage.setItem("token", data.token);
+      setToken(data.token);
       router.push("/settings");
     } catch (err: any) {
       setError(err.message);

@@ -8,6 +8,7 @@ export interface IUser extends Document {
   coins: number;
   inventory: mongoose.Types.ObjectId[]; // references ShopItem
   role:string;
+  profilePic: string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -15,13 +16,17 @@ const userSchema = new Schema<IUser>(
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    coins: { type: Number, default: 100 }, // or any starting amount
+    coins: { type: Number, default: 100 },
     inventory: [{ type: mongoose.Schema.Types.ObjectId, ref: "ShopItem" }],
     role: {
-  type: String,
-  enum: ["user", "admin"],
-  default: "user",
-},
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    profilePic: {
+      type: String,
+      default: "/profile/default.png", // fallback profile image
+    },
   },
   { timestamps: true }
 );
