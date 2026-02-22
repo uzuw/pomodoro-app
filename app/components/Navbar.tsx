@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-4 right-4 z-50 flex flex-col items-center space-y-6 px-4 py-4 rounded-2xl shadow-xl bg-black/20 backdrop-blur-md border border-white/10">
+    <nav className="fixed top-[10vh] right-4 z-50 flex flex-col items-center space-y-6 px-4 py-4 rounded-2xl shadow-xl bg-black/20 backdrop-blur-md border border-white/10">
       
 
       {navItems.map(({ href, label, icon }) => {

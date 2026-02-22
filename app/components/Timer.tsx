@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Slider from "./Slider";
-import Quote from "./Quote";
-
+import KittyQuote from "./Kitty-Quote";
 const CHECKPOINTS = [10, 25, 40, 60];
 
 const Timer: React.FC = () => {
@@ -91,7 +90,7 @@ const Timer: React.FC = () => {
       </div>
       
 
-      {showQuote && <Quote />}
+      {showQuote && <KittyQuote/>}
     </div>
   );
 };
