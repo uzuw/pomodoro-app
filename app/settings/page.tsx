@@ -42,11 +42,11 @@ const SettingsPage = () => {
         <div className="bg-white/80 backdrop-blur-md rounded-[3rem] shadow-2xl border-4 border-white overflow-hidden">
           
           {/* Header Section */}
-          <div className="bg-gradient-to-r from-[#f9c6c9] to-[#fbedcf] p-10 text-center border-b-4 border-white">
+          <div className="bg-gradient-to-r from-[#f9c6c9] to-[#fbedcf] p-10 text-center border-b-4 border-white font-extrabold">
             <motion.h1 
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
-              className="text-4xl font-black text-[#6b3e26] tracking-tight mb-2"
+              className="text-4xl font-black text-[#6b3e26] tracking-tight mb-2 "
             >
               Account Settings
             </motion.h1>
@@ -106,7 +106,7 @@ const SettingsPage = () => {
                   <HiOutlineHeart className="text-pink-500 text-xl" /> Thank You!
                 </h3>
                 <p className="text-sm text-[#a0522d] leading-relaxed">
-                  Thanks for using our boutique! Every purchase supports our world development. We hope you love your new items.
+                  Thanks for using my App! Every purchase supports our world development. I hope you love your new items.
                 </p>
               </motion.div>
 
@@ -118,7 +118,7 @@ const SettingsPage = () => {
                   <RiInformationLine className="text-orange-500 text-xl" /> About Us
                 </h3>
                 <p className="text-sm text-[#a0522d] leading-relaxed">
-                  We are a small team of creators building immersive Minecraft-inspired experiences. Stay tuned for more updates!
+                  I am a enthuastic developer building immersive Cozy-inspired experiences. Stay tuned for more updates!
                 </p>
               </motion.div>
             </div>
@@ -126,7 +126,7 @@ const SettingsPage = () => {
             {/* Bottom Sparkle Note */}
             <div className="flex items-center justify-center gap-2 text-[#a0522d] opacity-60 text-xs font-bold uppercase tracking-widest">
               <HiOutlineSparkles /> 
-              <span>KittyDoro V 1.0</span>
+              <span>KittyDoro V 1.0 (beta)</span>
               <HiOutlineSparkles />
             </div>
 
@@ -138,3 +138,6 @@ const SettingsPage = () => {
 };
 
 export default SettingsPage;
+
+
+
